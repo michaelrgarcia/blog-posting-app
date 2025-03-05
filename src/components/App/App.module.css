@@ -1,1 +1,63 @@
+.appHeader {
+  display: flex;
+  flex-direction: column;
+}
 
+.navWrapper {
+  max-width: 300px;
+  align-self: center;
+}
+
+.appNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 20px;
+}
+
+.navBtn {
+  width: 300px;
+
+  background-color: inherit;
+  border: 1px solid #c2c8d0;
+}
+
+.navBtn:hover {
+  border-color: #6b6fc9;
+}
+
+.appMain {
+  display: flex;
+
+  border: 1px solid #c2c8d0;
+  border-radius: 8px;
+  margin-top: 30px;
+
+  min-height: 500px;
+
+  background-color: inherit;
+}
+
+.outletWrapper {
+  height: 900px;
+  width: 400px;
+}
+
+@media only screen and (min-width: 950px) {
+  .appNav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    gap: 35px;
+  }
+
+  .outletWrapper {
+    width: 850px;
+  }
+
+  .navBtn {
+    width: 170px;
+  }
+}

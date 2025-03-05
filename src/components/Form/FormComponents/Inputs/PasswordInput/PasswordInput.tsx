@@ -3,7 +3,7 @@ import { useState } from "react";
 import { InputProps } from "../InputProps";
 
 import OpenEye from "./eye.svg";
-import ClosedEye from "./eye-closed.svg";
+import BlockedEye from "./eye-off.svg";
 
 import styles from "./PasswordInput.module.css";
 
@@ -38,7 +38,7 @@ function PasswordInput({
           onChange={onChange}
         />
         <img
-          src={inputType === "password" ? ClosedEye : OpenEye}
+          src={inputType === "password" ? BlockedEye : OpenEye}
           alt="Show"
           onClick={toggleVisibility}
           className={styles.visibilityToggle}

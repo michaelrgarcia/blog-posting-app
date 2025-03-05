@@ -1,16 +1,40 @@
-import { ReactElement } from "react";
+import Input from "./FormComponents/Inputs/Input";
+import PasswordInput from "./FormComponents/Inputs/PasswordInput/PasswordInput";
 
-import formStyles from "./Form.module.css";
+import { FormProps } from "./FormProps";
 
-interface FormProps {
-  children: ReactElement; // specifically, FormComponents
-}
+import styles from "./Form.module.css";
 
-function Form({ children }: FormProps) {
+function Form({ inputs, submitBtnTxt }: FormProps) {
   return (
-    <form style={formStyles}>
-      {children}
-      <button type="submit">Submit</button>
+    <form className={styles.formComponent}>
+      {inputs.map((input, index) => {
+        if (!input.type) {
+          return (
+            <PasswordInput
+              id={input.id}
+              labelText={input.labelText}
+              value={input.value}
+              placeholder={input.placeholder}
+              onChange={input.onChange}
+              key={index}
+            />
+          );
+        } else {
+          return (
+            <Input
+              id={input.id}
+              labelText={input.labelText}
+              value={input.value}
+              placeholder={input.placeholder}
+              onChange={input.onChange}
+              type={input.type}
+              key={index}
+            />
+          );
+        }
+      })}
+      <button type="submit">{submitBtnTxt}</button>
     </form>
   );
 }

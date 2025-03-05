@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
 
 import Form from "../Form/Form";
-import PasswordInput from "../Form/FormComponents/Inputs/PasswordInput/PasswordInput";
 
 import "./App.module.css";
+import { InputProps } from "../Form/FormComponents/Inputs/InputProps";
 
 function App() {
   // check for JWT in localStorage
@@ -12,25 +12,37 @@ function App() {
     password: "",
   });
 
+  const onUsernameUpdate = (e: FormEvent<HTMLInputElement>) => {
+    setLoginDetails({ ...loginDetails, username: e.currentTarget.value });
+  };
+
   const onPasswordUpdate = (e: FormEvent<HTMLInputElement>) => {
     setLoginDetails({ ...loginDetails, password: e.currentTarget.value });
   };
 
+  const loginFormInputs: InputProps[] = [
+    {
+      id: "username",
+      labelText: "Username",
+      value: loginDetails.username,
+      onChange: (e) => onUsernameUpdate(e),
+      type: "text",
+    },
+    {
+      id: "password",
+      labelText: "Password",
+      value: loginDetails.password,
+      onChange: (e) => onPasswordUpdate(e),
+    },
+  ];
+
   return (
     <>
       <header>
-        <h1>Log in</h1>
+        <h1>Blogger</h1>
       </header>
       <main>
-        <Form>
-          <PasswordInput
-            id="password"
-            labelText="Password"
-            value={loginDetails.password}
-            placeholder=""
-            onChange={(e) => onPasswordUpdate(e)}
-          />
-        </Form>
+        <Form inputs={loginFormInputs} submitBtnTxt="Log in" />
       </main>
     </>
   );

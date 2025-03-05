@@ -5,7 +5,7 @@ import { FormProps } from "./FormProps";
 
 import styles from "./Form.module.css";
 
-function Form({ inputs, submitBtnTxt }: FormProps) {
+function Form({ inputs, submitBtnTxt, submitBtnColor }: FormProps) {
   return (
     <form className={styles.formComponent}>
       {inputs.map((input, index) => {
@@ -34,7 +34,13 @@ function Form({ inputs, submitBtnTxt }: FormProps) {
           );
         }
       })}
-      <button type="submit">{submitBtnTxt}</button>
+      <button
+        type="submit"
+        className={styles.submitBtn}
+        style={{ backgroundColor: submitBtnColor }}
+      >
+        {submitBtnTxt}
+      </button>
     </form>
   );
 }

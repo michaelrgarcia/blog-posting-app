@@ -2,8 +2,9 @@ import { FormEvent, useState } from "react";
 
 import Form from "../Form/Form";
 
-import "./App.module.css";
 import { InputProps } from "../Form/FormComponents/Inputs/InputProps";
+
+import "./App.module.css";
 
 function App() {
   // check for JWT in localStorage
@@ -42,7 +43,11 @@ function App() {
         <h1>Blogger</h1>
       </header>
       <main>
-        <Form inputs={loginFormInputs} submitBtnTxt="Log in" />
+        <Form
+          inputs={loginFormInputs}
+          submitBtnTxt="Log in"
+          submitBtnColor="rgb(105, 192, 135)"
+        />
       </main>
     </>
   );

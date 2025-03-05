@@ -19,6 +19,7 @@ function Input({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        autoComplete="on"
       />
     </div>
   );

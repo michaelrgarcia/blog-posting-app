@@ -72,11 +72,17 @@ input {
   min-width: 250px;
   max-width: 500px;
 
+  transition: border-color 0.25s;
+
   font-size: 1em;
 }
 
 input[type="password"] {
   letter-spacing: 0.125em;
+}
+
+input:hover {
+  border-color: #000000;
 }
 
 label {
@@ -94,8 +100,5 @@ label {
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }

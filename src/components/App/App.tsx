@@ -1,8 +1,16 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
 import styles from "./App.module.css";
 
 function App() {
+  const navigate = useNavigate();
+
+  const onLogOut = () => {
+    localStorage.removeItem("jwt");
+
+    navigate("/login");
+  };
+
   return (
     <>
       <header className={styles.appHeader}>
@@ -24,11 +32,14 @@ function App() {
                 New Post
               </button>
             </Link>
-            <Link to="log-out">
-              <button type="button" className={styles.navBtn}>
-                Log out
-              </button>
-            </Link>
+            <button
+              type="button"
+              className={styles.navBtn}
+              style={{ minWidth: "170px" }}
+              onClick={onLogOut}
+            >
+              Log out
+            </button>
           </nav>
         </div>
       </header>

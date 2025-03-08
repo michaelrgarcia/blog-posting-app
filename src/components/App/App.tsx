@@ -1,7 +1,8 @@
 import { Outlet, Link } from "react-router-dom";
 
-import styles from "./App.module.css";
 import { useAuth } from "../../context/auth/AuthProvider";
+
+import styles from "./App.module.css";
 
 function App() {
   const { logout } = useAuth();

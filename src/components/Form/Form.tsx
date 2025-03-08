@@ -14,8 +14,8 @@ function Form({
 }: FormProps) {
   return (
     <>
-      <p>{error}</p>
-      <form className={styles.formComponent}>
+      <p style={{ color: "red" }}>{error}</p>
+      <form className={styles.formComponent} onSubmit={onSubmit}>
         {inputs.map((input, index) => {
           if (!input.type) {
             return (
@@ -46,7 +46,6 @@ function Form({
           type="submit"
           className={styles.submitBtn}
           style={{ backgroundColor: submitBtnColor }}
-          onClick={onSubmit}
         >
           {submitBtnTxt}
         </button>

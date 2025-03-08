@@ -5,5 +5,5 @@ export interface FormProps {
   submitBtnTxt?: string;
   submitBtnColor?: string; // a valid CSS color property
   error: string | null;
-  onSubmit: () => void;
+  onSubmit: (e: FormEvent<SubmitEvent>) => Promise<void>;
 }

@@ -48,30 +48,38 @@ function Posts({ postStatus }: PostsProps) {
     <div className={styles.posts}>
       {loading && <p>loading...</p>}
       {error && <p>error getting posts</p>}
-      {posts &&
-        posts.map(
-          ({
-            id,
-            title,
-            author,
-            content,
-            uploaded,
-            lastModified,
-            comments,
-          }) => (
-            <Post
-              id={id}
-              title={title}
-              author={author}
-              content={content}
-              uploaded={uploaded}
-              lastModified={lastModified}
-              comments={comments}
-              postStatus={postStatus}
-              key={`post-${id}`}
-            />
-          )
-        )}
+      {posts && !loading ? (
+        <>
+          <h2 className={styles.postsHeader}>
+            {postStatus === "published" ? "Published" : "Unpublished"} Posts
+          </h2>
+          {posts.map(
+            ({
+              id,
+              title,
+              author,
+              content,
+              uploaded,
+              lastModified,
+              comments,
+            }) => (
+              <Post
+                id={id}
+                title={title}
+                author={author}
+                content={content}
+                uploaded={uploaded}
+                lastModified={lastModified}
+                comments={comments}
+                postStatus={postStatus}
+                key={`post-${id}`}
+              />
+            )
+          )}
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import Form from "../../../components/Form/Form";
 import { InputProps } from "../../../components/Form/FormComponents/Inputs/InputProps";
 
 import "./Login.module.css";
+import { getParsedJwt } from "../../../utils/jwtHelpers";
 
 function Login() {
   const [loginDetails, setLoginDetails] = useState({
@@ -40,7 +41,13 @@ function Login() {
       const { message, token } = await loginAttempt.json();
 
       if (loginAttempt.ok && token) {
-        login(token);
+        const parsed = getParsedJwt(token);
+
+        if (parsed?.role === "BLOGGER") {
+          login(token);
+        } else {
+          setError("This site is only for bloggers.");
+        }
       } else {
         setError(message);
       }

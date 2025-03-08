@@ -10,6 +10,31 @@
   height: 400px;
 }
 
+.postBlur {
+  composes: post;
+
+  position: relative;
+
+  filter: blur(2px);
+}
+
+.loadingText {
+  position: absolute;
+  z-index: 1;
+
+  margin-left: 45px;
+  margin-top: 170px;
+
+  font-weight: bold;
+  font-size: 3em;
+
+  user-select: none;
+
+  animation-name: waver;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
 .postInfo {
   display: flex;
   flex-direction: column;
@@ -98,7 +123,8 @@
     Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   font-size: 0.9em;
 
-  margin-top: 40px;
+  margin-top: 35px;
+  border: 1px solid #c2c8d0;
   border-radius: 8px;
   padding: 8px 10px;
 
@@ -107,7 +133,23 @@
   max-width: 100%;
   box-sizing: border-box;
 
+  transition: border-color 0.25s;
+
   resize: none;
+}
+
+.newContentTextarea:hover {
+  border-color: #000000;
+}
+
+@keyframes waver {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @media only screen and (min-width: 950px) {
@@ -116,5 +158,12 @@
     width: 100%;
 
     justify-content: space-between;
+  }
+
+  .loadingText {
+    margin-left: 230px;
+    margin-top: 150px;
+
+    font-size: 4em;
   }
 }

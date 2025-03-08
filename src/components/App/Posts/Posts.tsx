@@ -16,12 +16,19 @@ function Posts({ postStatus }: PostsProps) {
   const [posts, setPosts] = useState<PostType[] | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const { user } = useAuth();
+
+  const onPostsUpdate = () => {
+    setRefresh(!refresh);
+  };
 
   useEffect(() => {
     async function request() {
       try {
+        setPosts(undefined);
+
         setLoading(true);
 
         const res = await fetch(`http://localhost:3000/posts/${postStatus}`, {
@@ -42,7 +49,7 @@ function Posts({ postStatus }: PostsProps) {
     }
 
     request();
-  }, [user, postStatus]);
+  }, [user, postStatus, refresh]);
 
   return (
     <div className={styles.posts}>
@@ -72,6 +79,7 @@ function Posts({ postStatus }: PostsProps) {
                 lastModified={lastModified}
                 comments={comments}
                 postStatus={postStatus}
+                updatePosts={onPostsUpdate}
                 key={`post-${id}`}
               />
             )

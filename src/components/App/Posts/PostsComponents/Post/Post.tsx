@@ -1,8 +1,11 @@
+import { FormEvent, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 
 import { getDateFromDbString } from "../../../../../utils/dateHelpers";
 
 import PostType from "../../../../../../backendTypes/post";
+
+import { useAuth } from "../../../../../context/auth/AuthProvider";
 
 import Comment from "../Comment/Comment";
 
@@ -14,10 +17,10 @@ import SubmitEditIcon from "./check.svg";
 import StopEditIcon from "./pencil-off.svg";
 
 import styles from "./Post.module.css";
-import { FormEvent, useState } from "react";
 
 interface PostProps extends PostType {
   postStatus: "published" | "unpublished";
+  updatePosts: () => void;
 }
 
 type PostActions = "edit" | "publish" | "unpublish" | "delete" | "";
@@ -31,27 +34,88 @@ function Post({
   lastModified,
   comments,
   postStatus,
+  updatePosts,
 }: PostProps) {
   const [currentAction, setCurrentAction] = useState<PostActions>("");
   const [editFields, setEditFields] = useState({
     title,
     content,
   });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  const { user } = useAuth();
 
   const postId = id;
 
+  const uploadTimeFromNow = formatDistanceToNow(getDateFromDbString(uploaded), {
+    addSuffix: true,
+  });
+  const editTimeFromNow = formatDistanceToNow(
+    getDateFromDbString(lastModified),
+    {
+      addSuffix: true,
+    }
+  );
+
   const onTitleUpdate = (e: FormEvent<HTMLInputElement>) => {
-    setEditFields({ ...editFields, title: e.currentTarget.value });
+    if (!loading) {
+      setEditFields({ ...editFields, title: e.currentTarget.value });
+    }
   };
 
   const onContentUpdate = (e: FormEvent<HTMLTextAreaElement>) => {
-    setEditFields({ ...editFields, content: e.currentTarget.value });
+    if (!loading) {
+      setEditFields({ ...editFields, content: e.currentTarget.value });
+    }
+  };
+
+  const onEditConfirm = async () => {
+    const changesMade =
+      editFields.title !== title || editFields.content !== content;
+
+    if (!changesMade) return setCurrentAction("");
+
+    if (!loading) {
+      try {
+        setLoading(true);
+
+        const res = await fetch("http://localhost:3000/posts/edit", {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user}`,
+          },
+          body: JSON.stringify({ ...editFields, postId }),
+        });
+
+        const parsed = await res.json();
+
+        const { message } = parsed;
+
+        if (res.ok) {
+          setCurrentAction("");
+
+          updatePosts();
+        } else {
+          setError(message);
+        }
+      } catch (err: unknown) {
+        console.error(err);
+
+        setError("Error. Please confirm your changes again.");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const onStopEdit = () => {
-    setCurrentAction("");
+    if (!loading) {
+      setCurrentAction("");
 
-    setEditFields({ title, content });
+      setEditFields({ title, content });
+    }
   };
 
   // for edit action:
@@ -87,18 +151,14 @@ function Post({
       ) : (
         ""
       )}
-      <div className={styles.post}>
+      {loading && <p className={styles.loadingText}>Updating...</p>}
+      <div className={loading ? styles.postBlur : styles.post}>
         <div className={styles.postInfo}>
           <div className={styles.postDatesContainer}>
             <p className={styles.postDates}>
-              {formatDistanceToNow(getDateFromDbString(uploaded), {
-                addSuffix: true,
-              })}{" "}
-              • updated{" "}
-              {/* perhaps check if these two dates are equal. if they are, dont display lastModified date*/}
-              {formatDistanceToNow(getDateFromDbString(lastModified), {
-                addSuffix: true,
-              })}
+              {error
+                ? error
+                : `${uploadTimeFromNow} • updated ${editTimeFromNow}`}
             </p>
             {currentAction === "edit" ? (
               <div className={styles.postActions}>
@@ -106,6 +166,7 @@ function Post({
                   type="button"
                   className={styles.submitEditIcon}
                   title="Submit Changes"
+                  onClick={onEditConfirm}
                 >
                   <img src={SubmitEditIcon} alt="Submit Changes" />
                 </button>

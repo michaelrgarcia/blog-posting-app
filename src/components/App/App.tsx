@@ -1,15 +1,10 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 import styles from "./App.module.css";
+import { useAuth } from "../../context/auth/AuthProvider";
 
 function App() {
-  const navigate = useNavigate();
-
-  const onLogOut = () => {
-    localStorage.removeItem("jwt");
-
-    navigate("/login");
-  };
+  const { logout } = useAuth();
 
   return (
     <>
@@ -36,7 +31,7 @@ function App() {
               type="button"
               className={styles.navBtn}
               style={{ minWidth: "170px" }}
-              onClick={onLogOut}
+              onClick={() => logout()}
             >
               Log out
             </button>

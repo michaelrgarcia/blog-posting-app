@@ -1,18 +1,13 @@
-export default interface Post {
+import { CommentType } from "./comment";
+
+export default interface PostType {
   id: number;
   title: string;
   author: {
     username: string;
   };
   content: string;
-  uploaded: Date;
-  lastModified: Date;
-  comments: {
-    author: {
-      username: string;
-    };
-    content: string;
-    uploaded: Date;
-    lastModified: Date;
-  };
+  uploaded: string;
+  lastModified: string;
+  comments: CommentType[];
 }

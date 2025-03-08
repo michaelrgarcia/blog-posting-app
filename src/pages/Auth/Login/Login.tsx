@@ -1,9 +1,10 @@
-import { FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
 
-import Form from "../../Form/Form";
+import { useAuth } from "../../../context/auth/AuthProvider";
 
-import { InputProps } from "../../Form/FormComponents/Inputs/InputProps";
+import Form from "../../../components/Form/Form";
+
+import { InputProps } from "../../../components/Form/FormComponents/Inputs/InputProps";
 
 import "./Login.module.css";
 
@@ -12,9 +13,9 @@ function Login() {
     username: "",
     password: "",
   });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>("");
 
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const onUsernameUpdate = (e: FormEvent<HTMLInputElement>) => {
     setLoginDetails({ ...loginDetails, username: e.currentTarget.value });
@@ -24,7 +25,9 @@ function Login() {
     setLoginDetails({ ...loginDetails, password: e.currentTarget.value });
   };
 
-  const onLogin = async () => {
+  const onLogin = async (e: FormEvent<SubmitEvent>) => {
+    e.preventDefault();
+
     try {
       const loginAttempt = await fetch("http://localhost:3000/login", {
         method: "post",
@@ -37,9 +40,7 @@ function Login() {
       const { message, token } = await loginAttempt.json();
 
       if (loginAttempt.ok && token) {
-        localStorage.setItem("jwt", String(token));
-
-        navigate("/");
+        login(token);
       } else {
         setError(message);
       }

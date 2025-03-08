@@ -10,9 +10,11 @@ import EditIcon from "./pencil.svg";
 import DeleteIcon from "./trash-2.svg";
 import PublishIcon from "./mail-check.svg";
 import UnpublishIcon from "./mail-x.svg";
+import SubmitEditIcon from "./check.svg";
+import StopEditIcon from "./pencil-off.svg";
 
 import styles from "./Post.module.css";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 interface PostProps extends PostType {
   postStatus: "published" | "unpublished";
@@ -31,13 +33,51 @@ function Post({
   postStatus,
 }: PostProps) {
   const [currentAction, setCurrentAction] = useState<PostActions>("");
+  const [editFields, setEditFields] = useState({
+    title,
+    content,
+  });
 
   const postId = id;
+
+  const onTitleUpdate = (e: FormEvent<HTMLInputElement>) => {
+    setEditFields({ ...editFields, title: e.currentTarget.value });
+  };
+
+  const onContentUpdate = (e: FormEvent<HTMLTextAreaElement>) => {
+    setEditFields({ ...editFields, content: e.currentTarget.value });
+  };
+
+  const onStopEdit = () => {
+    setCurrentAction("");
+
+    setEditFields({ title, content });
+  };
+
+  // for edit action:
+  /*
+    when currentAction === "editing", hide all other actions
+
+    ^ show "stop editing" and "submit changes" options instead
+
+    make post title and content into inputs
+    content should be a textarea
+  */
+
+  // for (un)publish action:
+  /*
+    just show a dialog asking if user wants to (un)publish
+  */
+
+  // for delete action:
+  /*
+    just show a dialog asking if user wants to delete
+  */
 
   return (
     <>
       {currentAction === "edit" ? (
-        <p>ur editing</p>
+        ""
       ) : currentAction === "publish" ? (
         <p>ur publishing</p>
       ) : currentAction === "unpublish" ? (
@@ -60,49 +100,92 @@ function Post({
                 addSuffix: true,
               })}
             </p>
-            <div className={styles.postActions}>
-              <button
-                type="button"
-                className={styles.editPostIcon}
-                title="Edit Post"
-                onClick={() => setCurrentAction("edit")}
-              >
-                <img src={EditIcon} alt="Edit Post" />
-              </button>
-              {postStatus === "published" ? (
+            {currentAction === "edit" ? (
+              <div className={styles.postActions}>
                 <button
                   type="button"
-                  className={styles.unpublishPostIcon}
-                  title="Unpublish Post"
-                  onClick={() => setCurrentAction("unpublish")}
+                  className={styles.submitEditIcon}
+                  title="Submit Changes"
                 >
-                  <img src={UnpublishIcon} alt="Unpublish Post" />
+                  <img src={SubmitEditIcon} alt="Submit Changes" />
                 </button>
-              ) : (
                 <button
                   type="button"
-                  className={styles.publishPostIcon}
-                  title="Publish Post"
-                  onClick={() => setCurrentAction("publish")}
+                  className={styles.stopEditIcon}
+                  title="Stop Editing"
+                  onClick={onStopEdit}
                 >
-                  <img src={PublishIcon} alt="Publish Post" />
+                  <img src={StopEditIcon} alt="Stop Editing" />
                 </button>
-              )}
-              <button
-                type="button"
-                className={styles.deletePostIcon}
-                title="Delete Post"
-                onClick={() => setCurrentAction("delete")}
-              >
-                <img src={DeleteIcon} alt="Delete Post" />
-              </button>
-            </div>
+              </div>
+            ) : (
+              <div className={styles.postActions}>
+                <button
+                  type="button"
+                  className={styles.editPostIcon}
+                  title="Edit Post"
+                  onClick={() => setCurrentAction("edit")}
+                >
+                  <img src={EditIcon} alt="Edit Post" />
+                </button>
+                {postStatus === "published" ? (
+                  <button
+                    type="button"
+                    className={styles.unpublishPostIcon}
+                    title="Unpublish Post"
+                    onClick={() => setCurrentAction("unpublish")}
+                  >
+                    <img src={UnpublishIcon} alt="Unpublish Post" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className={styles.publishPostIcon}
+                    title="Publish Post"
+                    onClick={() => setCurrentAction("publish")}
+                  >
+                    <img src={PublishIcon} alt="Publish Post" />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className={styles.deletePostIcon}
+                  title="Delete Post"
+                  onClick={() => setCurrentAction("delete")}
+                >
+                  <img src={DeleteIcon} alt="Delete Post" />
+                </button>
+              </div>
+            )}
           </div>
-          <p className={styles.postTitle}>{title}</p>
+          {currentAction === "edit" ? (
+            <input
+              type="text"
+              name="newTitle"
+              id="newTitle"
+              className={styles.newTitleInput}
+              value={editFields.title}
+              onChange={onTitleUpdate}
+            />
+          ) : (
+            <p className={styles.postTitle}>{title}</p>
+          )}
           <p className={styles.postedBy}>Posted by</p>
           <p className={styles.postAuthor}>{author.username}</p>
         </div>
-        <p className={styles.postContent}>{content}</p>
+        {currentAction === "edit" ? (
+          <textarea
+            name="newContent"
+            id="newContent"
+            className={styles.newContentTextarea}
+            cols={120}
+            rows={10}
+            value={editFields.content}
+            onChange={onContentUpdate}
+          ></textarea>
+        ) : (
+          <p className={styles.postContent}>{content}</p>
+        )}
         <div className={styles.postComments}>
           {comments.map(({ id, author, content, uploaded, lastModified }) => (
             <Comment

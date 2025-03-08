@@ -6,6 +6,8 @@
   border: 1px solid #c2c8d0;
   border-radius: 8px;
   padding: 20px;
+
+  height: 400px;
 }
 
 .postInfo {
@@ -57,10 +59,7 @@
   gap: 10px;
 }
 
-.deletePostIcon,
-.editPostIcon,
-.publishPostIcon,
-.unpublishPostIcon {
+.postActions > button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,17 +72,11 @@
   width: 40px;
 }
 
-.deletePostIcon:hover,
-.editPostIcon:hover,
-.publishPostIcon:hover,
-.unpublishPostIcon:hover {
+.postActions > button:hover {
   border-color: #6b6fc9;
 }
 
-.deletePostIcon > img,
-.editPostIcon > img,
-.publishPostIcon > img,
-.unpublishPostIcon > img {
+.postActions > button > img {
   width: 20px;
 
   filter: invert(62%) sepia(17%) saturate(197%) hue-rotate(176deg)
@@ -92,6 +85,29 @@
 
 .postContent {
   margin-top: 30px;
+}
+
+.newTitleInput {
+  margin-left: 0;
+  margin-top: 8px;
+  margin-bottom: 30px;
+}
+
+.newContentTextarea {
+  font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 0.9em;
+
+  margin-top: 40px;
+  border-radius: 8px;
+  padding: 8px 10px;
+
+  background-color: inherit;
+
+  max-width: 100%;
+  box-sizing: border-box;
+
+  resize: none;
 }
 
 @media only screen and (min-width: 950px) {

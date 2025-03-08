@@ -1,18 +1,17 @@
 import { ReactElement, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../context/auth/AuthProvider";
+
 function ProtectedRoute({ children }: { children: ReactElement }) {
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-
-    if (!jwt) {
+    if (!user) {
       navigate("/login", { replace: true });
-    } else {
-      navigate("/");
     }
-  }, [navigate]);
+  }, [user, navigate]);
 
   return children;
 }

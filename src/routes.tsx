@@ -1,23 +1,35 @@
+import { RouteObject } from "react-router-dom";
+
 import App from "./components/App/App";
-import Login from "./components/Auth/Login/Login";
+import Login from "./pages/Auth/Login/Login";
 
 import ProtectedRoute from "./utils/ProtectedRoute";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import Posts from "./components/App/Posts/Posts";
+import { AuthProvider } from "./context/auth/AuthProvider";
 
-const routes = [
+const routes: RouteObject[] = [
   {
     path: "/",
     element: (
-      <ProtectedRoute>
-        <App />
-      </ProtectedRoute>
+      <AuthProvider>
+        <ProtectedRoute>
+          <App />
+        </ProtectedRoute>
+      </AuthProvider>
     ),
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "published", element: <Posts postStatus="published" /> },
+      { path: "unpublished", element: <Posts postStatus="unpublished" /> },
+    ],
   },
   {
     path: "/login",
     element: (
-      <ProtectedRoute>
+      <AuthProvider>
         <Login />
-      </ProtectedRoute>
+      </AuthProvider>
     ),
   },
 ];

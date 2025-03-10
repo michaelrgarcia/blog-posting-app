@@ -1,7 +1,14 @@
 .postsHeader {
+  margin-bottom: -10px;
+
   text-align: left;
 }
 
 .posts {
+  display: flex;
+  flex-direction: column;
+
+  gap: 30px;
+
   padding: 30px;
 }

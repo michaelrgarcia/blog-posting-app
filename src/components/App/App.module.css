@@ -41,7 +41,7 @@
 }
 
 .outletWrapper {
-  height: 900px;
+  min-height: 900px;
   width: 400px;
 }
 

@@ -24,7 +24,7 @@ function DeletePost() {
 
         const endpoint = import.meta.env.VITE_MY_BLOG_API;
 
-        const res = await fetch(`${endpoint}/delete/${postId}`, {
+        const res = await fetch(`${endpoint}/posts/${postId}/delete`, {
           method: "delete",
           headers: {
             Authorization: `Bearer ${user}`,

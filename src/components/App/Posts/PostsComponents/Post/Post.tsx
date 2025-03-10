@@ -7,6 +7,8 @@ import PostType from "../../../../../../backendTypes/post";
 
 import { useAuth } from "../../../../../context/auth/AuthProvider";
 
+import PublishToggle from "./popups/PublishToggle";
+import DeletePost from "./popups/DeletePost";
 import Comment from "../Comment/Comment";
 
 import EditIcon from "./pencil.svg";
@@ -14,8 +16,6 @@ import SubmitEditIcon from "./check.svg";
 import StopEditIcon from "./pencil-off.svg";
 
 import styles from "./Post.module.css";
-import PublishToggle from "./popups/PublishToggle";
-import DeletePost from "./popups/DeletePost";
 
 interface PostProps extends PostType {
   postStatus: "published" | "unpublished";

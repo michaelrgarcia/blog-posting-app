@@ -86,7 +86,9 @@ function Post({
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:3000/posts/edit", {
+        const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
+        const res = await fetch(`${endpoint}/posts/edit`, {
           method: "put",
           headers: {
             "Content-Type": "application/json",

@@ -30,7 +30,9 @@ function Login() {
     e.preventDefault();
 
     try {
-      const loginAttempt = await fetch("http://localhost:3000/login", {
+      const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
+      const loginAttempt = await fetch(`${endpoint}/login`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",

@@ -32,7 +32,9 @@ function Posts({ postStatus }: PostsProps) {
 
         setLoading(true);
 
-        const res = await fetch(`http://localhost:3000/posts/${postStatus}`, {
+        const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
+        const res = await fetch(`${endpoint}/posts/${postStatus}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${user}`,

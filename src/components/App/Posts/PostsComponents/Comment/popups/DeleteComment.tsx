@@ -30,7 +30,9 @@ function DeleteComment({ id, updatePosts, setError }: DeleteCommentProps) {
       try {
         setLoading(true);
 
-        const res = await fetch(`http://localhost:3000/comments/${id}/delete`, {
+        const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
+        const res = await fetch(`${endpoint}/comments/${id}/delete`, {
           method: "delete",
           headers: {
             Authorization: `Bearer ${user}`,

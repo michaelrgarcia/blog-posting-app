@@ -17,6 +17,8 @@ function NewPost() {
 
   const { user } = useAuth();
 
+  const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
   const onTitleUpdate = (e: FormEvent<HTMLInputElement>) => {
     setPostDetails({ ...postDetails, title: e.currentTarget.value });
   };
@@ -37,7 +39,7 @@ function NewPost() {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:3000/posts/create", {
+        const res = await fetch(`${endpoint}:3000/posts/create`, {
           method: "post",
           headers: {
             "Content-Type": "application/json",
@@ -45,7 +47,6 @@ function NewPost() {
           },
           body: JSON.stringify({
             ...postDetails,
-            authorId: 1,
             published: true,
           }),
         });
@@ -84,7 +85,7 @@ function NewPost() {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:3000/posts/create", {
+        const res = await fetch(`${endpoint}:3000/posts/create`, {
           method: "post",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +93,6 @@ function NewPost() {
           },
           body: JSON.stringify({
             ...postDetails,
-            authorId: 1,
             published: false,
           }),
         });

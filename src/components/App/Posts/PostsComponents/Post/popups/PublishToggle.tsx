@@ -18,12 +18,14 @@ function PublishToggle() {
     usePostContext();
   const { user } = useAuth();
 
+  const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
   const onConfirmPublish = async () => {
     if (!loading) {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:3000/posts/publish", {
+        const res = await fetch(`${endpoint}/posts/publish`, {
           method: "put",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +61,7 @@ function PublishToggle() {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:3000/posts/unpublish", {
+        const res = await fetch(`${endpoint}/posts/unpublish`, {
           method: "put",
           headers: {
             "Content-Type": "application/json",

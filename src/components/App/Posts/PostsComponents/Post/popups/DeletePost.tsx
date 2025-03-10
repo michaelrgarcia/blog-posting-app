@@ -22,15 +22,14 @@ function DeletePost() {
       try {
         setLoading(true);
 
-        const res = await fetch(
-          `http://localhost:3000/posts/delete/${postId}`,
-          {
-            method: "delete",
-            headers: {
-              Authorization: `Bearer ${user}`,
-            },
-          }
-        );
+        const endpoint = import.meta.env.VITE_MY_BLOG_API;
+
+        const res = await fetch(`${endpoint}/delete/${postId}`, {
+          method: "delete",
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
+        });
 
         const parsed = await res.json();
 

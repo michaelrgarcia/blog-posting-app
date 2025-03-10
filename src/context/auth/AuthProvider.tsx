@@ -13,6 +13,7 @@ type UserContext = {
 
 const AuthContext = createContext<UserContext>({
   user: "",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login: (jwt: string) => {},
   logout: () => {},
 });

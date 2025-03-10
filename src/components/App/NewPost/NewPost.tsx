@@ -39,7 +39,7 @@ function NewPost() {
       try {
         setLoading(true);
 
-        const res = await fetch(`${endpoint}:3000/posts/create`, {
+        const res = await fetch(`${endpoint}/posts/create`, {
           method: "post",
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +85,7 @@ function NewPost() {
       try {
         setLoading(true);
 
-        const res = await fetch(`${endpoint}:3000/posts/create`, {
+        const res = await fetch(`${endpoint}/posts/create`, {
           method: "post",
           headers: {
             "Content-Type": "application/json",

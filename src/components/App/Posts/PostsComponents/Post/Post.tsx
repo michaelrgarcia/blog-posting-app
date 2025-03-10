@@ -50,6 +50,7 @@ function Post({
   const uploadTimeFromNow = formatDistanceToNow(getDateFromDbString(uploaded), {
     addSuffix: true,
   });
+
   const editTimeFromNow = formatDistanceToNow(
     getDateFromDbString(lastModified),
     {

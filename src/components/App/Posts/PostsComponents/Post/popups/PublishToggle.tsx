@@ -18,12 +18,12 @@ function PublishToggle() {
     usePostContext();
   const { user } = useAuth();
 
-  const onConfirm = async () => {
+  const onConfirmPublish = async () => {
     if (!loading) {
       try {
         setLoading(true);
 
-        const res = await fetch("http://localhost:3000/posts/edit", {
+        const res = await fetch("http://localhost:3000/posts/publish", {
           method: "put",
           headers: {
             "Content-Type": "application/json",
@@ -31,7 +31,7 @@ function PublishToggle() {
           },
           body: JSON.stringify({
             postId,
-            published: postStatus === "published" ? false : true,
+            published: true,
           }),
         });
 
@@ -47,7 +47,43 @@ function PublishToggle() {
       } catch (err: unknown) {
         console.error(err);
 
-        setError("Error. Please confirm your changes again.");
+        setError("Error. Please try publishing the post again.");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const onConfirmUnpublish = async () => {
+    if (!loading) {
+      try {
+        setLoading(true);
+
+        const res = await fetch("http://localhost:3000/posts/unpublish", {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user}`,
+          },
+          body: JSON.stringify({
+            postId,
+            published: false,
+          }),
+        });
+
+        const parsed = await res.json();
+
+        const { message } = parsed;
+
+        if (res.ok) {
+          updatePosts();
+        } else {
+          setError(message);
+        }
+      } catch (err: unknown) {
+        console.error(err);
+
+        setError("Error. Please try unpublishing the post again.");
       } finally {
         setLoading(false);
       }
@@ -67,7 +103,9 @@ function PublishToggle() {
               Are you sure that you want unpublish this post?
             </DialogDescription>
             <div className={styles.dialogActions}>
-              <button>Yes</button>
+              <button type="button" onClick={onConfirmUnpublish}>
+                Yes
+              </button>
               <DialogClose>No</DialogClose>
             </div>
           </DialogContent>
@@ -83,7 +121,9 @@ function PublishToggle() {
               Are you sure that you want publish this post?
             </DialogDescription>
             <div className={styles.dialogActions}>
-              <button>Yes</button>
+              <button type="button" onClick={onConfirmPublish}>
+                Yes
+              </button>
               <DialogClose>No</DialogClose>
             </div>
           </DialogContent>

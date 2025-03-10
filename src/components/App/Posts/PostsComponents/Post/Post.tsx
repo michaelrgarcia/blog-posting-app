@@ -10,13 +10,12 @@ import { useAuth } from "../../../../../context/auth/AuthProvider";
 import Comment from "../Comment/Comment";
 
 import EditIcon from "./pencil.svg";
-import DeleteIcon from "./trash-2.svg";
-import PublishIcon from "./mail-check.svg";
-import UnpublishIcon from "./mail-x.svg";
 import SubmitEditIcon from "./check.svg";
 import StopEditIcon from "./pencil-off.svg";
 
 import styles from "./Post.module.css";
+import PublishToggle from "./popups/PublishToggle";
+import DeletePost from "./popups/DeletePost";
 
 interface PostProps extends PostType {
   postStatus: "published" | "unpublished";
@@ -118,39 +117,8 @@ function Post({
     }
   };
 
-  // for edit action:
-  /*
-    when currentAction === "editing", hide all other actions
-
-    ^ show "stop editing" and "submit changes" options instead
-
-    make post title and content into inputs
-    content should be a textarea
-  */
-
-  // for (un)publish action:
-  /*
-    just show a dialog asking if user wants to (un)publish
-  */
-
-  // for delete action:
-  /*
-    just show a dialog asking if user wants to delete
-  */
-
   return (
     <>
-      {currentAction === "edit" ? (
-        ""
-      ) : currentAction === "publish" ? (
-        <p>ur publishing</p>
-      ) : currentAction === "unpublish" ? (
-        <p>ur unpublishing</p>
-      ) : currentAction === "delete" ? (
-        <p>ur deleting</p>
-      ) : (
-        ""
-      )}
       {loading && <p className={styles.loadingText}>Updating...</p>}
       <div className={loading ? styles.postBlur : styles.post}>
         <div className={styles.postInfo}>
@@ -183,39 +151,20 @@ function Post({
               <div className={styles.postActions}>
                 <button
                   type="button"
-                  className={styles.editPostIcon}
                   title="Edit Post"
                   onClick={() => setCurrentAction("edit")}
                 >
                   <img src={EditIcon} alt="Edit Post" />
                 </button>
-                {postStatus === "published" ? (
-                  <button
-                    type="button"
-                    className={styles.unpublishPostIcon}
-                    title="Unpublish Post"
-                    onClick={() => setCurrentAction("unpublish")}
-                  >
-                    <img src={UnpublishIcon} alt="Unpublish Post" />
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className={styles.publishPostIcon}
-                    title="Publish Post"
-                    onClick={() => setCurrentAction("publish")}
-                  >
-                    <img src={PublishIcon} alt="Publish Post" />
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className={styles.deletePostIcon}
-                  title="Delete Post"
-                  onClick={() => setCurrentAction("delete")}
-                >
-                  <img src={DeleteIcon} alt="Delete Post" />
-                </button>
+                <PublishToggle
+                  postId={postId}
+                  postStatus={postStatus}
+                  setCurrentAction={setCurrentAction}
+                />
+                <DeletePost
+                  postId={postId}
+                  setCurrentAction={setCurrentAction}
+                />
               </div>
             )}
           </div>

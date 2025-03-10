@@ -1,0 +1,13 @@
+.dialogOverlay {
+  background-color: rgba(0, 0, 0, 0.6);
+
+  display: grid;
+  place-items: center;
+}
+
+.dialogContent {
+  background-color: white;
+
+  padding: 15px;
+  border-radius: 8px;
+}

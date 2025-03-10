@@ -97,7 +97,8 @@
   width: 40px;
 }
 
-.postActions > button:hover {
+.postActions > button:hover,
+.dialogActions > button:hover {
   border-color: #6b6fc9;
 }
 

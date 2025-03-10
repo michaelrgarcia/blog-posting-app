@@ -100,7 +100,7 @@ function PublishToggle() {
           <DialogContent>
             <DialogHeading>Unpublish Post</DialogHeading>
             <DialogDescription>
-              Are you sure that you want unpublish this post?
+              Are you sure that you want to unpublish this post?
             </DialogDescription>
             <div className={styles.dialogActions}>
               <button type="button" onClick={onConfirmUnpublish}>
@@ -118,7 +118,7 @@ function PublishToggle() {
           <DialogContent>
             <DialogHeading>Publish Post</DialogHeading>
             <DialogDescription>
-              Are you sure that you want publish this post?
+              Are you sure that you want to publish this post?
             </DialogDescription>
             <div className={styles.dialogActions}>
               <button type="button" onClick={onConfirmPublish}>

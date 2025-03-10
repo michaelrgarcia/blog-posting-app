@@ -7,6 +7,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Posts from "./components/App/Posts/Posts";
 import { AuthProvider } from "./context/auth/AuthProvider";
+import NewPost from "./components/App/NewPost/NewPost";
 
 const routes: RouteObject[] = [
   {
@@ -22,6 +23,7 @@ const routes: RouteObject[] = [
     children: [
       { path: "published", element: <Posts postStatus="published" /> },
       { path: "unpublished", element: <Posts postStatus="unpublished" /> },
+      { path: "new-post", element: <NewPost /> },
     ],
   },
   {

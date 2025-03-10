@@ -1,0 +1,44 @@
+.newPostHeader {
+  margin-bottom: -10px;
+  margin-top: 50px;
+
+  text-align: left;
+}
+
+.newPostForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  padding: 0px 30px;
+}
+
+.newPostActions {
+  display: flex;
+  align-self: flex-start;
+  gap: 15px;
+}
+
+.newPostActions > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100px;
+
+  padding: 8px;
+  border: 1px solid #c2c8d0;
+
+  background-color: inherit;
+}
+
+.newPostActions > button:hover {
+  border-color: #6b6fc9;
+}
+
+.newPostError {
+  color: red;
+  text-align: left;
+
+  margin: 0;
+}

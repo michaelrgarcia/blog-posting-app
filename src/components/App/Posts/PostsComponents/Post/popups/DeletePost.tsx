@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 import { Dialog } from "../../../../../../context/DialogProvider";
 
 import DialogTrigger from "../../../../../Dialog/DialogTrigger";
@@ -12,20 +10,10 @@ import DeleteIcon from "../trash-2.svg";
 
 import styles from "./popups.module.css";
 
-type PostActions = "edit" | "publish" | "unpublish" | "delete" | "";
-
-type DeletePostProps = {
-  postId: number;
-  setCurrentAction: Dispatch<SetStateAction<PostActions>>;
-};
-
-function DeletePost({ postId, setCurrentAction }: DeletePostProps) {
+function DeletePost() {
   return (
     <Dialog>
-      <DialogTrigger
-        title="Delete Post"
-        onClick={() => setCurrentAction("delete")}
-      >
+      <DialogTrigger title="Delete Post">
         <img src={DeleteIcon} alt="Delete Post" />
       </DialogTrigger>
       <DialogContent>

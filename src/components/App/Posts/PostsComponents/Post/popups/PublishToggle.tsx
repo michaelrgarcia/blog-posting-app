@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
-
+import { useAuth } from "../../../../../../context/auth/AuthProvider";
 import { Dialog } from "../../../../../../context/DialogProvider";
 
 import DialogTrigger from "../../../../../Dialog/DialogTrigger";
@@ -12,28 +11,54 @@ import PublishIcon from "../mail-check.svg";
 import UnpublishIcon from "../mail-x.svg";
 
 import styles from "./popups.module.css";
+import { usePostContext } from "../../../../../../context/PostContextProvider";
 
-type PostActions = "edit" | "publish" | "unpublish" | "delete" | "";
+function PublishToggle() {
+  const { postId, postStatus, loading, setLoading, updatePosts, setError } =
+    usePostContext();
+  const { user } = useAuth();
 
-type PublishToggleProps = {
-  postId: number;
-  postStatus: "published" | "unpublished";
-  setCurrentAction: Dispatch<SetStateAction<PostActions>>;
-};
+  const onConfirm = async () => {
+    if (!loading) {
+      try {
+        setLoading(true);
 
-function PublishToggle({
-  postId,
-  postStatus,
-  setCurrentAction,
-}: PublishToggleProps) {
+        const res = await fetch("http://localhost:3000/posts/edit", {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user}`,
+          },
+          body: JSON.stringify({
+            postId,
+            published: postStatus === "published" ? false : true,
+          }),
+        });
+
+        const parsed = await res.json();
+
+        const { message } = parsed;
+
+        if (res.ok) {
+          updatePosts();
+        } else {
+          setError(message);
+        }
+      } catch (err: unknown) {
+        console.error(err);
+
+        setError("Error. Please confirm your changes again.");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   return (
     <>
       {postStatus === "published" ? (
         <Dialog>
-          <DialogTrigger
-            onClick={() => setCurrentAction("unpublish")}
-            title="Unpublish Post"
-          >
+          <DialogTrigger title="Unpublish Post">
             <img src={UnpublishIcon} alt="Unpublish Post" />
           </DialogTrigger>
           <DialogContent>
@@ -49,10 +74,7 @@ function PublishToggle({
         </Dialog>
       ) : (
         <Dialog>
-          <DialogTrigger
-            onClick={() => setCurrentAction("publish")}
-            title="Publish Post"
-          >
+          <DialogTrigger title="Publish Post">
             <img src={PublishIcon} alt="Publish Post" />
           </DialogTrigger>
           <DialogContent>

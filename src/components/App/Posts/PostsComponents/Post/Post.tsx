@@ -3,9 +3,10 @@ import { formatDistanceToNow } from "date-fns";
 
 import { getDateFromDbString } from "../../../../../utils/dateHelpers";
 
-import PostType from "../../../../../../backendTypes/post";
+import CommentType from "../../../../../../backendTypes/comment";
 
 import { useAuth } from "../../../../../context/auth/AuthProvider";
+import { usePostContext } from "../../../../../context/PostContextProvider";
 
 import PublishToggle from "./popups/PublishToggle";
 import DeletePost from "./popups/DeletePost";
@@ -17,35 +18,34 @@ import StopEditIcon from "./pencil-off.svg";
 
 import styles from "./Post.module.css";
 
-interface PostProps extends PostType {
-  postStatus: "published" | "unpublished";
-  updatePosts: () => void;
+interface PostProps {
+  title: string;
+  author: {
+    username: string;
+  };
+  content: string;
+  uploaded: string;
+  lastModified: string;
+  comments: CommentType[];
 }
 
-type PostActions = "edit" | "publish" | "unpublish" | "delete" | "";
-
 function Post({
-  id,
   title,
   author,
   content,
   uploaded,
   lastModified,
   comments,
-  postStatus,
-  updatePosts,
 }: PostProps) {
-  const [currentAction, setCurrentAction] = useState<PostActions>("");
+  const [editing, setEditing] = useState<boolean>(false);
   const [editFields, setEditFields] = useState({
     title,
     content,
   });
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
 
+  const { postId, loading, setLoading, updatePosts, setError, error } =
+    usePostContext();
   const { user } = useAuth();
-
-  const postId = id;
 
   const uploadTimeFromNow = formatDistanceToNow(getDateFromDbString(uploaded), {
     addSuffix: true,
@@ -73,7 +73,7 @@ function Post({
     const changesMade =
       editFields.title !== title || editFields.content !== content;
 
-    if (!changesMade) return setCurrentAction("");
+    if (!changesMade) return setEditing(false);
 
     if (!loading) {
       try {
@@ -93,7 +93,7 @@ function Post({
         const { message } = parsed;
 
         if (res.ok) {
-          setCurrentAction("");
+          setEditing(false);
 
           updatePosts();
         } else {
@@ -111,7 +111,7 @@ function Post({
 
   const onStopEdit = () => {
     if (!loading) {
-      setCurrentAction("");
+      setEditing(false);
 
       setEditFields({ title, content });
     }
@@ -128,7 +128,7 @@ function Post({
                 ? error
                 : `${uploadTimeFromNow} • updated ${editTimeFromNow}`}
             </p>
-            {currentAction === "edit" ? (
+            {editing ? (
               <div className={styles.postActions}>
                 <button
                   type="button"
@@ -152,23 +152,16 @@ function Post({
                 <button
                   type="button"
                   title="Edit Post"
-                  onClick={() => setCurrentAction("edit")}
+                  onClick={() => setEditing(true)}
                 >
                   <img src={EditIcon} alt="Edit Post" />
                 </button>
-                <PublishToggle
-                  postId={postId}
-                  postStatus={postStatus}
-                  setCurrentAction={setCurrentAction}
-                />
-                <DeletePost
-                  postId={postId}
-                  setCurrentAction={setCurrentAction}
-                />
+                <PublishToggle />
+                <DeletePost />
               </div>
             )}
           </div>
-          {currentAction === "edit" ? (
+          {editing ? (
             <input
               type="text"
               name="newTitle"
@@ -183,7 +176,7 @@ function Post({
           <p className={styles.postedBy}>Posted by</p>
           <p className={styles.postAuthor}>{author.username}</p>
         </div>
-        {currentAction === "edit" ? (
+        {editing ? (
           <textarea
             name="newContent"
             id="newContent"

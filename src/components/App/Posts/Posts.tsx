@@ -7,6 +7,7 @@ import PostType from "../../../../backendTypes/post";
 import Post from "./PostsComponents/Post/Post";
 
 import styles from "./Posts.module.css";
+import { PostContextProvider } from "../../../context/PostContextProvider";
 
 type PostsProps = {
   postStatus: "published" | "unpublished";
@@ -70,18 +71,21 @@ function Posts({ postStatus }: PostsProps) {
               lastModified,
               comments,
             }) => (
-              <Post
-                id={id}
-                title={title}
-                author={author}
-                content={content}
-                uploaded={uploaded}
-                lastModified={lastModified}
-                comments={comments}
+              <PostContextProvider
+                postId={id}
                 postStatus={postStatus}
                 updatePosts={onPostsUpdate}
                 key={`post-${id}`}
-              />
+              >
+                <Post
+                  title={title}
+                  author={author}
+                  content={content}
+                  uploaded={uploaded}
+                  lastModified={lastModified}
+                  comments={comments}
+                />
+              </PostContextProvider>
             )
           )}
         </>

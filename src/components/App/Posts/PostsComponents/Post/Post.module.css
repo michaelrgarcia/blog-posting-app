@@ -7,7 +7,7 @@
   border-radius: 8px;
   padding: 20px;
 
-  height: 400px;
+  min-height: 400px;
 }
 
 .postBlur {
@@ -141,6 +141,21 @@
 
 .newContentTextarea:hover {
   border-color: #000000;
+}
+
+.postCommentsHeader {
+  font-weight: bold;
+  font-size: 1.2em;
+
+  margin-bottom: 15px;
+}
+
+.postComments {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 100%;
 }
 
 @keyframes waver {

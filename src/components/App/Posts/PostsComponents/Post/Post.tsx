@@ -58,6 +58,12 @@ function Post({
     }
   );
 
+  const timestamp =
+    getDateFromDbString(uploaded).getTime() ===
+    getDateFromDbString(lastModified).getTime()
+      ? `${uploadTimeFromNow}`
+      : `${uploadTimeFromNow} • updated ${editTimeFromNow}`;
+
   const onTitleUpdate = (e: FormEvent<HTMLInputElement>) => {
     if (!loading) {
       setEditFields({ ...editFields, title: e.currentTarget.value });
@@ -124,11 +130,7 @@ function Post({
       <div className={loading ? styles.postBlur : styles.post}>
         <div className={styles.postInfo}>
           <div className={styles.postDatesContainer}>
-            <p className={styles.postDates}>
-              {error
-                ? error
-                : `${uploadTimeFromNow} • updated ${editTimeFromNow}`}
-            </p>
+            <p className={styles.postDates}>{error ? error : timestamp}</p>
             {editing ? (
               <div className={styles.postActions}>
                 <button
@@ -190,13 +192,16 @@ function Post({
         ) : (
           <p className={styles.postContent}>{content}</p>
         )}
+        <p className={styles.postCommentsHeader}>Comments</p>
         <div className={styles.postComments}>
           {comments.map(({ id, author, content, uploaded, lastModified }) => (
             <Comment
+              id={id}
               author={author}
               content={content}
               uploaded={uploaded}
               lastModified={lastModified}
+              updatePosts={updatePosts}
               key={`post-${postId}-comment-${id}`}
             />
           ))}

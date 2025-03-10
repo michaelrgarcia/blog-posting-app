@@ -1,0 +1,64 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  border: 1px solid #c2c8d0;
+  border-radius: 8px;
+  padding: 10px;
+
+  min-height: 90px;
+}
+
+.commentAuthorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 5px;
+
+  margin-bottom: 0;
+
+  width: 100%;
+}
+
+.commentAuthorAndTimestamp {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.commentTimestamp {
+  color: hsl(0, 0%, 63%, 1);
+
+  font-size: 0.8em;
+}
+
+.commentAuthorContainer > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px;
+  border: 1px solid #c2c8d0;
+  margin-right: 5px;
+
+  background-color: inherit;
+
+  width: 30px;
+}
+
+.commentAuthorContainer > button > img {
+  width: 20px;
+
+  filter: invert(62%) sepia(17%) saturate(197%) hue-rotate(176deg)
+    brightness(89%) contrast(84%);
+}
+
+.commentAuthorContainer > button:hover {
+  border-color: #6b6fc9;
+}
+
+.commentContent {
+  margin-top: 0;
+}

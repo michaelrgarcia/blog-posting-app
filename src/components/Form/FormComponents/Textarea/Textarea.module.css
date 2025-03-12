@@ -2,26 +2,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.textArea {
-  font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  font-size: 0.9em;
-
-  border: 1px solid #c2c8d0;
-  border-radius: 8px;
-  padding: 8px 10px;
-
-  background-color: inherit;
-
-  max-width: 100%;
-  box-sizing: border-box;
-
-  transition: border-color 0.25s;
-
-  resize: none;
-}
-
-.textArea:hover {
-  border-color: #000000;
-}

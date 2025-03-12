@@ -62,17 +62,20 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-input {
+input,
+textarea {
   background-color: inherit;
 
-  border: 1px solid #c2c8d0;
+  border: 1px solid #c2c8d05b;
   border-radius: 8px;
   padding: 8px 10px;
 
+  transition: border-color 0.25s;
+}
+
+input {
   min-width: 250px;
   max-width: 500px;
-
-  transition: border-color 0.25s;
 
   font-size: 1em;
 }
@@ -81,8 +84,20 @@ input[type="password"] {
   letter-spacing: 0.125em;
 }
 
-input:hover {
-  border-color: #000000;
+textarea {
+  font-family: ui-sans-serif, system-ui, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 0.9em;
+
+  max-width: 100%;
+  box-sizing: border-box;
+
+  resize: none;
+}
+
+input:hover,
+textarea:hover {
+  border-color: #c2c8d0;
 }
 
 label {
